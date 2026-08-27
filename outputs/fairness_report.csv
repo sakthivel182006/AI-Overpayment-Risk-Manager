@@ -1,0 +1,18 @@
+dimension,group,population_count,top20_count,selection_rate,top20_percentage,selection_rate_ratio
+age_band,18-29,701,3,0.43,15.0,0.9
+age_band,30-44,1112,5,0.45,25.0,0.94
+age_band,45-59,992,4,0.4,20.0,0.85
+age_band,60-74,874,7,0.8,35.0,1.68
+age_band,75+,521,1,0.19,5.0,0.4
+language_preference,English,3277,16,0.49,80.0,1.03
+language_preference,Other,413,0,0.0,0.0,0.0
+language_preference,Spanish,510,4,0.78,20.0,1.65
+district,Ash Hill,663,6,0.9,30.0,1.9
+district,Calder Central,1433,7,0.49,35.0,1.03
+district,Northgate,1121,3,0.27,15.0,0.56
+district,Weybridge,983,4,0.41,20.0,0.85
+tenure,No fixed abode,855,5,0.58,25.0,1.23
+tenure,Owner-occupier,815,2,0.25,10.0,0.52
+tenure,Private tenancy,830,7,0.84,35.0,1.77
+tenure,Resident with family,824,4,0.49,20.0,1.02
+tenure,Social tenancy,876,2,0.23,10.0,0.48
