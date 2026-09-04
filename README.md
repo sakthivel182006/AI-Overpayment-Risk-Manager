@@ -237,12 +237,16 @@ python main.py
 ```
 
 
-## Dashboard
+# Run Investigator Analytics Dashboard
 
 Run the dashboard:
 
 ```bash
 python -m http.server 8000
+```
+
+```bash
+http://localhost:8000/dashboard/
 ```
 
 
