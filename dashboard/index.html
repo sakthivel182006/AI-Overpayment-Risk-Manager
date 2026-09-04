@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Overpayment Risk Manager</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">AI</div>
+
+            <div>
+                <h2>Risk Manager</h2>
+                <span>Overpayment Detection</span>
+            </div>
+        </div>
+
+        <nav>
+            <a href="#overview" class="nav-link active">
+                <span>◉</span>
+                Overview
+            </a>
+
+            <a href="#worklist" class="nav-link">
+                <span>☷</span>
+                Investigator Worklist
+            </a>
+
+            <a href="#fairness" class="nav-link">
+                <span>⚖</span>
+                Fairness
+            </a>
+
+            <a href="#methodology" class="nav-link">
+                <span>ⓘ</span>
+                Methodology
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="status-dot"></div>
+            <div>
+                <strong>System Status</strong>
+                <small>Analysis completed</small>
+            </div>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <!-- HEADER -->
+        <header class="topbar">
+
+            <div>
+                <h1>AI Overpayment Risk Manager</h1>
+                <p>
+                    Ranked investigator worklist for suspected improper benefit payments
+                </p>
+            </div>
+
+            <div class="header-badge">
+                <span class="live-dot"></span>
+                Analysis Ready
+            </div>
+
+        </header>
+
+
+        <!-- OVERVIEW -->
+        <section id="overview">
+
+            <div class="section-title">
+                <div>
+                    <h2>Risk Overview</h2>
+                    <p>Population-level summary of the current analysis</p>
+                </div>
+            </div>
+
+
+            <!-- KPI CARDS -->
+            <div class="kpi-grid">
+
+                <div class="kpi-card">
+                    <div class="kpi-icon">👥</div>
+
+                    <div>
+                        <span>Total Cases</span>
+                        <strong id="totalCases">—</strong>
+                    </div>
+                </div>
+
+
+                <div class="kpi-card">
+                    <div class="kpi-icon">⚠</div>
+
+                    <div>
+                        <span>Cases Reviewed</span>
+                        <strong id="reviewCases">20</strong>
+                    </div>
+                </div>
+
+
+                <div class="kpi-card">
+                    <div class="kpi-icon">▲</div>
+
+                    <div>
+                        <span>Highest Risk</span>
+                        <strong id="highestRisk">—</strong>
+                    </div>
+                </div>
+
+
+                <div class="kpi-card">
+                    <div class="kpi-icon">📊</div>
+
+                    <div>
+                        <span>Average Risk</span>
+                        <strong id="averageRisk">—</strong>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- CHARTS -->
+            <div class="chart-grid">
+
+                <div class="panel chart-panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Top 20 Risk Scores</h3>
+                            <p>Highest-priority cases for investigation</p>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="riskChart"></canvas>
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Risk Distribution</h3>
+                            <p>All analyzed cases</p>
+                        </div>
+                    </div>
+
+                    <div class="risk-distribution">
+
+                        <div class="distribution-row">
+                            <span>Low</span>
+
+                            <div class="progress">
+                                <div
+                                    id="lowRiskBar"
+                                    class="progress-fill low">
+                                </div>
+                            </div>
+
+                            <strong id="lowRiskCount">—</strong>
+                        </div>
+
+
+                        <div class="distribution-row">
+                            <span>Medium</span>
+
+                            <div class="progress">
+                                <div
+                                    id="mediumRiskBar"
+                                    class="progress-fill medium">
+                                </div>
+                            </div>
+
+                            <strong id="mediumRiskCount">—</strong>
+                        </div>
+
+
+                        <div class="distribution-row">
+                            <span>High</span>
+
+                            <div class="progress">
+                                <div
+                                    id="highRiskBar"
+                                    class="progress-fill high">
+                                </div>
+                            </div>
+
+                            <strong id="highRiskCount">—</strong>
+                        </div>
+
+
+                        <div class="distribution-row">
+                            <span>Critical</span>
+
+                            <div class="progress">
+                                <div
+                                    id="criticalRiskBar"
+                                    class="progress-fill critical">
+                                </div>
+                            </div>
+
+                            <strong id="criticalRiskCount">—</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- WORKLIST -->
+        <section id="worklist">
+
+            <div class="section-title">
+
+                <div>
+                    <h2>Investigator Worklist</h2>
+
+                    <p>
+                        Top 20 cases ranked by explainable risk score
+                    </p>
+                </div>
+
+
+                <div class="worklist-actions">
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search Case ID..."
+                    >
+
+                    <button id="refreshButton">
+                        Refresh
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel table-panel">
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                        <tr>
+
+                            <th>Rank</th>
+
+                            <th>Case ID</th>
+
+                            <th>Risk Score</th>
+
+                            <th>Average / Award</th>
+
+                            <th>Maximum / Award</th>
+
+                            <th>High Payment Months</th>
+
+                            <th>Admin Context</th>
+
+                            <th>Review Reason</th>
+
+                        </tr>
+
+                        </thead>
+
+                        <tbody id="worklistBody">
+
+                        <tr>
+                            <td colspan="8" class="loading">
+                                Loading risk worklist...
+                            </td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FAIRNESS -->
+        <section id="fairness">
+
+            <div class="section-title">
+
+                <div>
+                    <h2>Fairness & Population Analysis</h2>
+
+                    <p>
+                        Selection rates across population groups
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="fairness-grid">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h3>Age Band</h3>
+                            <p>Representation in the Top 20</p>
+                        </div>
+
+                    </div>
+
+                    <div class="fairness-list" id="ageFairness">
+                        Loading...
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h3>Language Preference</h3>
+                            <p>Representation in the Top 20</p>
+                        </div>
+
+                    </div>
+
+                    <div class="fairness-list" id="languageFairness">
+                        Loading...
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h3>District</h3>
+                            <p>Representation in the Top 20</p>
+                        </div>
+
+                    </div>
+
+                    <div class="fairness-list" id="districtFairness">
+                        Loading...
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h3>Tenure</h3>
+                            <p>Representation in the Top 20</p>
+                        </div>
+
+                    </div>
+
+                    <div class="fairness-list" id="tenureFairness">
+                        Loading...
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="fairness-warning">
+
+                <div class="warning-icon">!</div>
+
+                <div>
+
+                    <strong>Governance Notice</strong>
+
+                    <p>
+                        Risk scores are review signals, not findings of improper
+                        payment. Population-level disparities should be investigated
+                        before operational deployment.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- METHODOLOGY -->
+        <section id="methodology">
+
+            <div class="section-title">
+
+                <div>
+                    <h2>Methodology</h2>
+
+                    <p>
+                        How the AI Risk Manager generates investigator signals
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="methodology-grid">
+
+                <div class="method-card">
+
+                    <div class="method-number">01</div>
+
+                    <h3>Payment Analysis</h3>
+
+                    <p>
+                        Payment history is analyzed against the expected monthly
+                        award to identify unusually large payments.
+                    </p>
+
+                </div>
+
+
+                <div class="method-card">
+
+                    <div class="method-number">02</div>
+
+                    <h3>Pattern Detection</h3>
+
+                    <p>
+                        Payment frequency, variability, adjustments and repeated
+                        high-payment months contribute to the risk signal.
+                    </p>
+
+                </div>
+
+
+                <div class="method-card">
+
+                    <div class="method-number">03</div>
+
+                    <h3>Explainable Scoring</h3>
+
+                    <p>
+                        Multiple anomaly signals are combined into a 0–100
+                        explainable risk score.
+                    </p>
+
+                </div>
+
+
+                <div class="method-card">
+
+                    <div class="method-number">04</div>
+
+                    <h3>Human Review</h3>
+
+                    <p>
+                        Only the highest-ranked cases are surfaced to investigators.
+                        The system does not automatically determine improper payment.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="human-review">
+
+                <div class="human-review-icon">
+                    👤
+                </div>
+
+                <div>
+
+                    <h3>Human-in-the-loop</h3>
+
+                    <p>
+                        Every flagged case requires investigator review. Administrative
+                        activity may have legitimate explanations and should not
+                        automatically increase risk.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer>
+
+            <div>
+                AI Overpayment Risk Manager
+            </div>
+
+            <div>
+                Explainable Risk Scoring • Human Oversight • Fairness Monitoring
+            </div>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -236,6 +236,18 @@ The recommended command is:
 python main.py
 ```
 
+
+```markdown
+## Dashboard
+
+Run the dashboard:
+
+```bash
+python -m http.server 8000
+
+
+
+
 This runs the complete pipeline:
 
 ``` text
