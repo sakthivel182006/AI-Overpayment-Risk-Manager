@@ -202,7 +202,7 @@ The system processes the supplied data locally.
 ## 1. Clone the repository
 
 ``` bash
-git clone <your-github-repository-url>
+git clone https://github.com/sakthivel182006/AI-Overpayment-Risk-Manager
 cd AI-Overpayment-Risk-Manager
 ```
 
